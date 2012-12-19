@@ -17,9 +17,9 @@
 [ALGORYTHM]
  1. ジャンルを各顧客の購買履歴に応じて順位付け
    1.1. もっとも最近購入したジャンルに+1
-   1.2. 次に最近購入したジャンルに+HIS_WEIGHT   （0<HIS_WEIGHT<1）
-   1.3. 次に最近購入したジャンルに+HIS_WEIGHT^2
-   1.4. 次に最近購入したジャンルに+HIS_WEIGHT^3
+   1.2. 次に最近購入したジャンルに+HISTORY_WEIGHT   （0<HISTORY_WEIGHT<1）
+   1.3. 次に最近購入したジャンルに+HISTORY_WEIGHT^2
+   1.4. 次に最近購入したジャンルに+HISTORY_WEIGHT^3
                ・
                ・
                ・
@@ -34,7 +34,16 @@
 import sys
 from operator import itemgetter
 
-HIS_WEIGHT = 0.9
+HISTORY_WEIGHT = 0.9
+
+def gen_memoized_weight():
+    cache = {}
+    def _memoized_weight(pow):
+        if pow not in cache:
+            cache[pow] = HISTORY_WEIGHT ** pow
+        return cache[pow]
+    return _memoized_weight
+memoized_weight = gen_memoized_weight()
 
 class Customer:
     def __init__(self, name, history):
@@ -47,7 +56,7 @@ class Customer:
         score = {}
         for i, genre in enumerate(history):
             if genre in score:
-                score[genre] += HIS_WEIGHT ** i
+                score[genre] += memoized_weight(i)
             else:
                 score[genre] = 0.0
             i += 1
