@@ -96,25 +96,25 @@ def parse_customer_list(fname):
         if (i == 0):
             continue
         cus_list = line[:-1].split('\t')
-        id = cus_list[0]
+        cus_id = cus_list[0]
         name = cus_list[1]
         history = cus_list[2].split(';')
-        extra_dict = {id: Customer(name, history)}
+        extra_dict = {cus_id: Customer(name, history)}
         cus_dict.update(extra_dict)
 
     return cus_dict
 
 def parse_sales_ranking(fname):
-    list = []
+    sales_list = []
     for i, line in enumerate(open(fname, 'r')):
         if (i == 0):
             continue
         book_list = line[:-1].split('\t')
         
         book_dict = {"name": book_list[1], "genre": book_list[2]}
-        list.append(book_dict)
+        sales_list.append(book_dict)
 
-    return list
+    return sales_list
 
 
 
