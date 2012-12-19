@@ -45,10 +45,11 @@ class Customer:
     def __get_favorites(self, history):
         # ALGORYTHM-1
         score = {}
-        for genre in history:
-            score[genre] = 0.0
         for i, genre in enumerate(history):
-            score[genre] += HIS_WEIGHT ** i
+            if genre in score:
+                score[genre] += HIS_WEIGHT ** i
+            else:
+                score[genre] = 0.0
             i += 1
 
         favorites = []
