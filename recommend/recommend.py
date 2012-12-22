@@ -48,7 +48,6 @@ memoized_weight = gen_memoized_weight()
 class Customer:
     def __init__(self, name, history):
         self.name = name
-        self.__history = history
         self.__favorites = self.__get_favorites(history)
 
     def __get_favorites(self, history):
